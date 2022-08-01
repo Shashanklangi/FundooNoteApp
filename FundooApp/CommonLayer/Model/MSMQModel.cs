@@ -35,7 +35,7 @@ namespace CommonLayer.Model
             string body = Token;
             var SMTP = new SmtpClient("smtp.gmail.com")
             {
-                Port =  587,
+                Port = 587,
                 Credentials = new NetworkCredential("hoffmannicolas6@gmail.com", "tuvxvzdkucheykzw"),
                 EnableSsl = true,
             };
