@@ -38,7 +38,7 @@ namespace RepositoryLayer.Service
                 notesEntity.Created = notesModel.Created;
                 notesEntity.Modify = notesModel.Modify;
                 notesEntity.UserId = UserId;
-
+                notesEntity.UserId = UserId;
                 fundooContext.NotesTable.Add(notesEntity);
                 int result = fundooContext.SaveChanges();
 

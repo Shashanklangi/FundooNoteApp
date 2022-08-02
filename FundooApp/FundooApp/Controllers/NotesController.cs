@@ -9,7 +9,6 @@ using System.Linq;
 namespace FundooApp.Controllers
 {
     [Route("api/[controller]")]
-
     [Authorize]
     [ApiController]
     public class NotesController : ControllerBase
@@ -37,7 +36,7 @@ namespace FundooApp.Controllers
                     return BadRequest(new { success = false, message = "Note Created Unsuccessful" });
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw;
             }
@@ -59,11 +58,12 @@ namespace FundooApp.Controllers
                     return this.BadRequest(new { Success = false, message = "No Notes Found" });
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw;
             }
         }
 
     }
+
 }
