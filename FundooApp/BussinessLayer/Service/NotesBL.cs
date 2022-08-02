@@ -26,8 +26,5 @@ namespace BussinessLayer.Service
             catch (Exception)
             {
                 throw;
-            }
-        }
-        
     }
 }

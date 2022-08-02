@@ -1,5 +1,6 @@
 ﻿using BussinessLayer.Interface;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 namespace FundooApp.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class NotesController : ControllerBase
     {
@@ -18,13 +20,18 @@ namespace FundooApp.Controllers
         }
         [HttpPost]
         [Route("Create")]
+        public IActionResult Create(NotesModel notesModel)
         public IActionResult CreateNotes(NotesModel notesModel)
         {
             try
             {
-
-                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
-                var note = notesBL.CreateNote(userId, notesModel);
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userID").Value);
+                var result = notesBL.CreateNote(userId, notesModel);
+                if (result != null)
+                {
+                    return Ok(new { sucess = true, message = "Note Created Successful",data = result });
+                    long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                    var note = notesBL.CreateNote(userId, notesModel);
                 if (note != null)
                 {
                     return Ok(new { sucess = true, message = "Note Created Successful" });
@@ -34,7 +41,11 @@ namespace FundooApp.Controllers
                     return BadRequest(new { success = false, message = "Note Created Unsuccessful" });
                 }
             }
+
+            catch (Exception)
+
             catch (Exception e)
+
             {
                 throw;
             }
