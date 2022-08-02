@@ -1,5 +1,6 @@
 ﻿using BussinessLayer.Interface;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,6 +9,8 @@ using System.Linq;
 namespace FundooApp.Controllers
 {
     [Route("api/[controller]")]
+
+    [Authorize]
     [ApiController]
     public class NotesController : ControllerBase
     {
@@ -23,11 +26,11 @@ namespace FundooApp.Controllers
             try
             {
 
-                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
-                var note = notesBL.CreateNote(userId, notesModel);
-                if (note != null)
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userID").Value);
+                var result = notesBL.CreateNote(userId, notesModel);
+                if (result != null)
                 {
-                    return Ok(new { sucess = true, message = "Note Created Successful" });
+                    return Ok(new { sucess = true, message = "Note Created Successful", data = result });
                 }
                 else
                 {

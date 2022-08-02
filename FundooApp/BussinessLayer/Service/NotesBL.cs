@@ -28,6 +28,5 @@ namespace BussinessLayer.Service
                 throw;
             }
         }
-        
     }
 }
