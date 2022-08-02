@@ -36,7 +36,7 @@ namespace FundooApp.Controllers
                     return BadRequest(new { success = false, message = "Note Created Unsuccessful" });
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
@@ -58,7 +58,7 @@ namespace FundooApp.Controllers
                     return this.BadRequest(new { Success = false, message = "No Notes Found" });
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
