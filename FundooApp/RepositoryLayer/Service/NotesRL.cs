@@ -5,6 +5,7 @@ using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace RepositoryLayer.Service
@@ -44,6 +45,32 @@ namespace RepositoryLayer.Service
                 if (result != 0)
                 {
                     return notesEntity;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public NotesEntity UpdateNote(NotesModel notesModel, long NoteId)
+        {
+            try
+            {
+                var update = fundooContext.NotesTable.Where(x => x.NoteID == NoteId).FirstOrDefault();
+                if (update != null)
+                {
+                    update.Title = notesModel.Title;
+                    update.Description = notesModel.Description;
+                    update.Reminder = notesModel.Reminder;
+                    update.Colour = notesModel.Colour;
+                    update.Image = notesModel.Image;
+                    fundooContext.NotesTable.Update(update);
+                    fundooContext.SaveChanges();
+                    return update;
                 }
                 else
                 {

@@ -37,10 +37,33 @@ namespace FundooApp.Controllers
                     return BadRequest(new { success = false, message = "Note Created Unsuccessful" });
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
         }
+        [HttpPut]
+        [Route("Update")]
+        public IActionResult UpdateNotes(NotesModel notesModel, long NoteId)
+        {
+            try
+            {
+                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "userID").Value);
+                var result = notesBL.UpdateNote(notesModel, NoteId);
+                if (result != null)
+                {
+                    return this.Ok(new { Success = true, message = "Notes Updated Successfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { Success = false, message = "No Notes Found" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
     }
 }
