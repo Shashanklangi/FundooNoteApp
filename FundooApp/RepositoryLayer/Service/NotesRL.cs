@@ -13,13 +13,9 @@ namespace RepositoryLayer.Service
     public class NotesRL : INotesRL
     {
         private readonly FundooContext fundooContext;
-
-        private readonly IConfiguration configuration;
-
-        public NotesRL(FundooContext fundooContext, IConfiguration configuration)
+        public NotesRL(FundooContext fundooContext)
         {
             this.fundooContext = fundooContext;
-            this.configuration = configuration;
         }
 
         public NotesEntity CreateNote(long UserId, NotesModel notesModel)
@@ -37,7 +33,6 @@ namespace RepositoryLayer.Service
                 notesEntity.Trash = notesModel.Trash;
                 notesEntity.Created = notesModel.Created;
                 notesEntity.Modify = notesModel.Modify;
-                notesEntity.UserId = UserId;
                 notesEntity.UserId = UserId;
                 fundooContext.NotesTable.Add(notesEntity);
                 int result = fundooContext.SaveChanges();
@@ -68,9 +63,33 @@ namespace RepositoryLayer.Service
                     update.Reminder = notesModel.Reminder;
                     update.Colour = notesModel.Colour;
                     update.Image = notesModel.Image;
+                    update.Pin = notesModel.Pin;
+                    update.Archieve = notesModel.Archieve;
+                    update.Trash = notesModel.Trash;
                     fundooContext.NotesTable.Update(update);
                     fundooContext.SaveChanges();
                     return update;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public NotesEntity DeleteNotes(long NoteId)
+        {
+            try
+            {
+                var deleteNote = fundooContext.NotesTable.Where(x => x.NoteID == NoteId).FirstOrDefault();
+                if (deleteNote != null)
+                {
+                    fundooContext.NotesTable.Remove(deleteNote);
+                    fundooContext.SaveChanges();
+                    return deleteNote;
                 }
                 else
                 {

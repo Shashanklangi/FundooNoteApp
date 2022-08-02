@@ -39,6 +39,17 @@ namespace BussinessLayer.Service
                 throw;
             }
         }
+        public NotesEntity DeleteNotes(long NoteId)
+        {
+            try
+            {
+                return notesRL.DeleteNotes(NoteId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
     }
 }

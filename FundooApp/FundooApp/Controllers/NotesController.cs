@@ -63,7 +63,27 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
-
+        [HttpDelete]
+        [Route("Delete")]
+        public IActionResult DeleteNotes(long NoteId)
+        {
+            try
+            {
+                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(x => x.Type == "userID").Value);
+                var delete = notesBL.DeleteNotes(NoteId);
+                if (delete != null)
+                {
+                    return this.Ok(new { Success = true, message = "Notes Deleted Successfully" });
+                }
+                else
+                {
+                    return this.BadRequest(new { Success = false, message = "Notes Delete Unsuccessful" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
-
 }
