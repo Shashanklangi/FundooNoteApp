@@ -22,7 +22,7 @@ namespace BussinessLayer.Service
             {
                 return userRL.Registration(userRegistrationModel);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 throw;
             }
@@ -33,7 +33,7 @@ namespace BussinessLayer.Service
             {
                 return userRL.Login(userLoginModel);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

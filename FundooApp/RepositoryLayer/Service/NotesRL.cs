@@ -36,8 +36,8 @@ namespace RepositoryLayer.Service
                 notesEntity.Trash = notesModel.Trash;
                 notesEntity.Created = notesModel.Created;
                 notesEntity.Modify = notesModel.Modify;
-                notesEntity.UserId = UserId;
 
+                notesEntity.UserId = UserId;
                 fundooContext.NotesTable.Add(notesEntity);
                 int result = fundooContext.SaveChanges();
 
@@ -50,7 +50,11 @@ namespace RepositoryLayer.Service
                     return null;
                 }
             }
+
             catch (Exception)
+
+            catch (Exception e)
+
             {
                 throw;
             }
