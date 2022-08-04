@@ -72,5 +72,28 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
+        [HttpGet]
+        [Route("Retrieve")]
+        public IActionResult GetCollab(long noteId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(r => r.Type == "userID").Value);
+                var notes = collabBL.GetCollab(noteId, userId);
+                if (notes != null)
+                {
+                    return Ok(new { Success = true, message = "Collaborations Found Successfully", data = notes });
+
+                }
+                else
+                {
+                    return BadRequest(new { Success = false, message = "No Collaborations  Found" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

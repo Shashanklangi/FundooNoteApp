@@ -10,5 +10,6 @@ namespace RepositoryLayer.Interface
     {
         public CollaboratorEntity AddCollab(CollabModel collabModel);
         public string RemoveCollab(long collabID, long userId);
+        public IEnumerable<CollaboratorEntity> GetCollab(long noteId, long userId);
     }
 }
