@@ -1,4 +1,7 @@
-﻿using CommonLayer.Model;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using CommonLayer.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entity;
@@ -13,9 +16,11 @@ namespace RepositoryLayer.Service
     public class NotesRL : INotesRL
     {
         private readonly FundooContext fundooContext;
-        public NotesRL(FundooContext fundooContext)
+        private readonly IConfiguration configuration;
+        public NotesRL(FundooContext fundooContext, IConfiguration configuration)
         {
             this.fundooContext = fundooContext;
+            this.configuration = configuration;
         }
 
         public NotesEntity CreateNote(long UserId, NotesModel notesModel)
@@ -208,6 +213,36 @@ namespace RepositoryLayer.Service
             else
             {
                 return null;
+            }
+        }
+        public string Imaged(long NoteID, long userId, IFormFile image)
+        {
+            try
+            {
+                var result = fundooContext.NotesTable.Where(x => x.UserId == userId && x.NoteID == NoteID).FirstOrDefault();
+                if (result != null)
+                {
+                    Account account = new Account(this.configuration["CloudinaryAccount:CloudName"], this.configuration["CloudinaryAccount:APIKey"], this.configuration["CloudinaryAccount:APISecret"]);
+
+                    Cloudinary cloudinary = new Cloudinary(account);
+                    var uploadParameters = new ImageUploadParams()
+                    {
+                        File = new FileDescription(image.FileName, image.OpenReadStream()),
+                    };
+                    var uploadResult = cloudinary.Upload(uploadParameters);
+                    string imagePath = uploadResult.Url.ToString();
+                    result.Image = imagePath;
+                    fundooContext.SaveChanges();
+                    return "Image Upload Successfully";
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

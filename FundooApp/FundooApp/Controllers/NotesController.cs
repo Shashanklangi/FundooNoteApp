@@ -163,11 +163,11 @@ namespace FundooApp.Controllers
                 var result = notesBL.Archieve(NoteID, userID);
                 if (result == true)
                 {
-                    return Ok(new { success = true, message = "Note Archieve Successfully" });
+                    return Ok(new { success = true, message = "Note Archive Successfully" });
                 }
                 else if (result == false)
                 {
-                    return Ok(new { success = true, message = "Note Archieve Unsuccessfully." });
+                    return Ok(new { success = true, message = "Note Archive Unsuccessfully." });
                 }
                 return BadRequest(new { success = false, message = "Cannot perform operation." });
             }
@@ -191,6 +191,28 @@ namespace FundooApp.Controllers
                 else
                 {
                     return BadRequest(new { Success = false, message = "Added Colour Unsuccessful" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        [HttpPut]
+        [Route("Image")]
+        public IActionResult Imaged(long noteId, IFormFile image)
+        {
+            try
+            {
+                long userID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "userID").Value);
+                var result = notesBL.Imaged(noteId, userID, image);
+                if (result != null)
+                {
+                    return Ok(new { Status = true, Message = "Image Uploaded Successfully", Data = result });
+                }
+                else
+                {
+                    return BadRequest(new { Status = true, Message = "Image Uploaded Unsuccessfully", Data = result });
                 }
             }
             catch (Exception)
