@@ -15,6 +15,7 @@ namespace RepositoryLayer.Interface
         public IEnumerable<NotesEntity> ReadNotes(long userId);
         public bool Pinned(long NoteID, long userId);
         public bool Trashed(long NoteID, long userId);
+        public bool Archieve(long NoteID, long userId);
 
     }
 }
