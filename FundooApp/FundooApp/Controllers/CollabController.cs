@@ -50,5 +50,27 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
+        [HttpDelete]
+        [Route("Remove")]
+        public IActionResult RemoveCollab(long collabID)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(r => r.Type == "userID").Value);
+                var delete = collabBL.RemoveCollab(collabID, userId);
+                if (delete != null)
+                {
+                    return Ok(new { Success = true, message = "Collaboration Removed Successfully" });
+                }
+                else
+                {
+                    return BadRequest(new { Success = false, message = "Collaboration  Remove Unsuccessful" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
