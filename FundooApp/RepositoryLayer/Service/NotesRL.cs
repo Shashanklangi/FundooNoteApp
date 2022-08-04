@@ -188,5 +188,27 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+        public NotesEntity ColourNote(long NoteId, string color)
+        {
+            var result = fundooContext.NotesTable.Where(r => r.NoteID == NoteId).FirstOrDefault();
+            if (result != null)
+            {
+                if (color != null)
+                {
+                    result.Colour = color;
+                    fundooContext.NotesTable.Update(result);
+                    fundooContext.SaveChanges();
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

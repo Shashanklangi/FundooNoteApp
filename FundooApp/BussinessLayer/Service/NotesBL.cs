@@ -94,5 +94,16 @@ namespace BussinessLayer.Service
                 throw;
             }
         }
+        public NotesEntity ColourNote(long NoteId, string color)
+        {
+            try
+            {
+                return notesRL.ColourNote(NoteId, color);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

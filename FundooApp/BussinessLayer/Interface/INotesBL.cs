@@ -15,5 +15,6 @@ namespace BussinessLayer.Interface
         public bool Pinned(long NoteID, long userId);
         public bool Trashed(long NoteID, long userId);
         public bool Archieve(long NoteID, long userId);
+        public NotesEntity ColourNote(long NoteId, string color);
     }
 }
