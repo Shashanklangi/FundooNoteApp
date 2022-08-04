@@ -102,7 +102,7 @@ namespace RepositoryLayer.Service
                 {
                     var Token = GenerateSecurityToken(emailCheck.Email, emailCheck.UserId);
                     MSMQModel mSMQModel = new MSMQModel();
-                    mSMQModel.sendData2Queue(Token);
+                    mSMQModel.SendData2Queue(Token);
                     return Token.ToString();
                 }
                 else

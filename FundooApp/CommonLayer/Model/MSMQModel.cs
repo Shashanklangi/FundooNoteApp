@@ -11,7 +11,7 @@ namespace CommonLayer.Model
     {
         MessageQueue messageQ = new MessageQueue();
 
-        public void sendData2Queue(string Token)
+        public void SendData2Queue(string Token)
         {
             messageQ.Path = @".\private$\Token";
             if(!MessageQueue.Exists(messageQ.Path))
