@@ -86,5 +86,24 @@ namespace RepositoryLayer.Service
                 throw;
             }
         }
+        public IEnumerable<LabelEntity> GetLabels(long userId)
+        {
+            try
+            {
+                var result = fundooContext.LabelTable.ToList().Where(x => x.UserId == userId);
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

@@ -48,5 +48,16 @@ namespace BussinessLayer.Service
                 throw;
             }
         }
+        public IEnumerable<LabelEntity> GetLabels(long userId)
+        {
+            try
+            {
+                return labelRL.GetLabels(userId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

@@ -97,7 +97,27 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
-
-
+        [HttpGet]
+        [Route("Retrieve")]
+        public IActionResult GetAllLabels()
+        {
+            try
+            {
+                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(r => r.Type == "userID").Value);
+                var labels = labelBL.GetLabels(userid);
+                if (labels != null)
+                {
+                    return this.Ok(new { Success = true, Message = " All labels found Successfully", data = labels });
+                }
+                else
+                {
+                    return this.NotFound(new { Success = false, Message = "No label found" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
