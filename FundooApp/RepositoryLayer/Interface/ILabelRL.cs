@@ -10,5 +10,6 @@ namespace RepositoryLayer.Interface
     {
         public LabelEntity CreateLabel(LabelModel labelModel);
         public LabelEntity UpdateLabel(LabelModel labelModel, long labelID);
+        public LabelEntity DeleteLabel(long labelID, long userId);
     }
 }

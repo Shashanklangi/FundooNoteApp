@@ -75,6 +75,29 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
+        [HttpDelete]
+        [Route("Delete")]
+        public IActionResult DeleteLabel(long labelID)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(r => r.Type == "userID").Value);
+                var delete = labelBL.DeleteLabel(labelID, userId);
+                if (delete != null)
+                {
+                    return this.Ok(new { Success = true, message = "Label Deleted Successfully" });
+                }
+                else
+                {
+                    return this.NotFound(new { Success = false, message = "Label not Deleted" });
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
     }
 }
