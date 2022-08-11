@@ -31,7 +31,7 @@ namespace RepositoryLayer.Service
                 userEntity.FirstName = userRegistrationModel.FirstName;
                 userEntity.LastName = userRegistrationModel.LastName;
                 userEntity.Email = userRegistrationModel.Email;
-                userEntity.Password = userRegistrationModel.Password; 
+                userEntity.Password = Encryption(userRegistrationModel.Password);
 
                 fundooContext.UserTable.Add(userEntity);
                 int result = fundooContext.SaveChanges();
@@ -55,9 +55,9 @@ namespace RepositoryLayer.Service
         {
             try
             {
-                var LoginResult = fundooContext.UserTable.Where(user => user.Email == userLoginModel.Email && user.Password == userLoginModel.Password).FirstOrDefault();
+                var LoginResult = fundooContext.UserTable.Where(user => user.Email == userLoginModel.Email).FirstOrDefault();
 
-                if (LoginResult != null)
+                if (LoginResult != null && Decryption(LoginResult.Password) == userLoginModel.Password)
                 {
                     var token = GenerateSecurityToken(LoginResult.Email, LoginResult.UserId);
                     return token;
@@ -136,6 +136,29 @@ namespace RepositoryLayer.Service
             {
                 throw;
             }
+        }
+        public static string Encryption(string password)
+        {
+            string key = "Passwordsecret@719";
+            if (string.IsNullOrEmpty(password))
+            {
+                return "";
+            }
+            password += key;
+            var passwordBytes = Encoding.UTF8.GetBytes(password);
+            return Convert.ToBase64String(passwordBytes);
+        }
+        public static string Decryption(string encryppassword)
+        {
+            string key = "Passwordsecret@719";
+            if (string.IsNullOrEmpty(encryppassword))
+            {
+                return "";
+            }
+            var encodeBytes = Convert.FromBase64String(encryppassword);
+            var result = Encoding.UTF8.GetString(encodeBytes);
+            result = result.Substring(0, result.Length - key.Length);
+            return result;
         }
     }
 }
