@@ -3,6 +3,7 @@ using CommonLayer.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using RepositoryLayer.Interface;
 using System.Security.Claims;
 
@@ -13,10 +14,12 @@ namespace FundooApp.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserBL userBL;
+        private readonly ILogger<UserController> logger;
 
-        public UserController(IUserBL userBL)
+        public UserController(IUserBL userBL, ILogger<UserController> logger)
         {
             this.userBL = userBL;
+            this.logger = logger;   
         }
 
         [HttpPost]
@@ -27,17 +30,20 @@ namespace FundooApp.Controllers
             {
                 var result = userBL.Registration(userRegistrationModel);
 
-                if(result != null)
+                if (result != null)
                 {
-                    return Ok(new {success = true, message = "Registration Successfull", data = result});
+                    logger.LogInformation("Registeration Sucessfull");
+                    return Ok(new { success = true, message = "Registration Successful", data = result });
                 }
                 else
                 {
-                    return BadRequest(new {success = false, message = "Registration Unsuccessfull" });
+                    logger.LogError("Registeration Unsuccessfull");
+                    return BadRequest(new { success = false, message = "Registration Unsuccessful" });
                 }
             }
-            catch(System.Exception)
+            catch (System.Exception)
             {
+                logger.LogError(ToString());
                 throw;
             }
         }
@@ -51,15 +57,18 @@ namespace FundooApp.Controllers
 
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = "Login Successfull", data = result });
+                    logger.LogInformation("Login Sucessfull");
+                    return Ok(new { success = true, message = "Login Successful", data = result });
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "Login Unsuccessfull" });
+                    logger.LogError("Registeration Unsuccessfull");
+                    return BadRequest(new { success = false, message = "Login Unsuccessful" });
                 }
             }
-            catch(System.Exception)
+            catch (System.Exception)
             {
+                logger.LogError(ToString());
                 throw;
             }
         }
@@ -73,15 +82,18 @@ namespace FundooApp.Controllers
 
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = "Email Sent Successfull" });
+                    logger.LogInformation("Email sent Successful");
+                    return Ok(new { success = true, message = "Email sent Successful" });
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "Reset Email Not Sent" });
+                    logger.LogError("Reset Email not send");
+                    return BadRequest(new { success = false, message = "Reset Email not send" });
                 }
             }
             catch (System.Exception)
             {
+                logger.LogError(ToString());
                 throw;
             }
         }
@@ -97,15 +109,18 @@ namespace FundooApp.Controllers
 
                 if (result != null)
                 {
+                    logger.LogInformation("Password Reset Successful");
                     return Ok(new { success = true, message = "Password Reset Successful" });
                 }
                 else
                 {
+                    logger.LogError("Password Reset Unsuccessful");
                     return BadRequest(new { success = false, message = "Password Reset Unsuccessful" });
                 }
             }
             catch (System.Exception)
             {
+                logger.LogError(ToString());
                 throw;
             }
         }
